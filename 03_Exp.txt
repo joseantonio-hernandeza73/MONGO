@@ -1,0 +1,51 @@
+----------------------------------------->
+-------> Expresiones Regulares
+use datosfinancieros
+db.ventas.insertMany([{ventas:50,objetivo:70},{ventas:99,objetivo:90},{ventas:300,objetivo:150}])
+---> $regex
+db.empleados.find({"Categoría" : {$regex: /Jefe/}}).pretty()
+
+---> $Exp
+
+db.ventas.find({$expr: {$gt:["$ventas","$objetivo"]}}).pretty()
+
+  {
+    _id: ObjectId("65a5736d5d962708b7ad8b48"),
+    ventas: 99,
+    objetivo: 90
+  },
+  {
+    _id: ObjectId("65a5736d5d962708b7ad8b49"),
+    ventas: 300,
+    objetivo: 150
+  }
+--->
+db.ventas.find({$expr : {$gt: [{$cond : {if: {$lt:["$ventas",100]}, then : {$subtract: ["$ventas",20]}, else : "$ventas"}},"$objetivo"]}})
+
+[
+  {
+    _id: ObjectId("65a5736d5d962708b7ad8b49"),
+    ventas: 300,
+    objetivo: 150
+  }
+]
+
+--->
+db.ventas.find({$expr : {$gt: [{$cond : {if: {$lt:["$ventas",100]}, then : {$subtract: ["$ventas",2]}, else : "$ventas"}},"$objetivo"]}})
+[
+  {
+    _id: ObjectId("65a5736d5d962708b7ad8b48"),
+    ventas: 99,
+    objetivo: 90
+  },
+  {
+    _id: ObjectId("65a5736d5d962708b7ad8b49"),
+    ventas: 300,
+    objetivo: 150
+  }
+]
+--------------------------------------------------------------------->
+
+
+
+

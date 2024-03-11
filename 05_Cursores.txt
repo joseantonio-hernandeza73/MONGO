@@ -1,0 +1,272 @@
+---------------------------------------------------->
+------> Cursor, podemos masignar un valor de consulta a una variable .
+
+const objetoCursor = db.empleados.find()
+
+ objetoCursor.next()
+ > {
+  _id: ObjectId("653817574ca8cb5530d1de71"),
+  EmpID: 24,
+  Apellido: 'Sanchez',
+  Nombre: 'Jorge',
+  'Categoría': 'Administrador de Sistemas',
+  'Fecha contrato': '13/6/05',
+  Oficina: 1,
+  Extension: '200',
+  'Informes a': 19,
+  'Salario anual': 51000
+}
+.
+.
+.
+true
+
+---------------------------------------------------->
+------> Ordenar Datos con sort  (1 o -1)
+
+db.empleados.find().sort({"EmpID":1}),pretty()
+>   {
+    _id: ObjectId("653817574ca8cb5530d1de72"),
+    EmpID: 1,
+    Apellido: 'Pineda',
+    Nombre: 'Laura',
+    'Categoría': 'Comercial',
+    'Fecha contrato': '5/10/03',
+    Oficina: 2,
+    Extension: '501',
+    'Informes a': 4,
+    'Salario anual': 58000
+  },
+  {
+    _id: ObjectId("653817574ca8cb5530d1de73"),
+    EmpID: 2,
+    Apellido: 'Palacios',
+    Nombre: 'Antonio',
+    'Categoría': 'Presidente',
+    'Fecha contrato': '26/9/03',
+    Oficina: 1,
+    Extension: '101',
+    'Informes a': null,
+    'Salario anual': 160000
+  },
+  {
+    _id: ObjectId("653817574ca8cb5530d1de74"),
+    EmpID: 3,
+    Apellido: 'Canton',
+    Nombre: 'Raul',
+    'Categoría': 'Comercial',
+    'Fecha contrato': '20/10/04',
+    Oficina: 5,
+    Extension: '102',
+    'Informes a': 4,
+    'Salario anual': 61500
+  },
+  .
+  .
+  .
+    {
+    _id: ObjectId("653817574ca8cb5530d1de82"),
+    EmpID: 33,
+    Apellido: 'Muñoz',
+    Nombre: 'Ana',
+    'Categoría': 'Almacenista',
+    'Fecha contrato': '26/1/04',
+    Oficina: 3,
+    Extension: '300',
+    'Informes a': 20,
+    'Salario anual': 49000
+  }
+  
+db.empleados.find().sort({"Oficina": 1, "EmpID":1}),pretty()
+
+>   {
+    _id: ObjectId("65481368f1d2698d6e80b8fe"),
+    EmpID: '99',
+    Apellido: 'Jose',
+    Nombre: 'Esteban',
+    'Categoría': 'Comercial 5/10/03 ',
+    Oficina: 2,
+    'Extensión': '501',
+    'Informe a': 4,
+    salario: '45,000'
+  },
+  {
+    _id: ObjectId("65481359f1d2698d6e80b8fd"),
+    EmpID: '98',
+    Apellido: 'Carlos',
+    Nombre: 'Juan',
+    'Categoría': 'Comercial 5/10/03 ',
+    Oficina: 2,
+    'Extensión': '501',
+    'Informe a': 4
+  },
+  {
+    _id: ObjectId("654812cff1d2698d6e80b8fc"),
+    EmpID: '510',
+    Apellido: 'Carlos',
+    Nombre: 'Juan',
+    'Categoría': 'Comercial 5/10/03 ',
+    Oficina: 2,
+    'Extensión': '501',
+    'Informe a': 4
+  },
+  {
+    _id: ObjectId("653817574ca8cb5530d1de93"),
+    EmpID: 161,
+    Apellido: 'Benito',
+    Nombre: 'Sergio',
+    'Categoría': 'Gerente',
+    'Fecha contrato': '12/1/06',
+    Oficina: 5,
+    Extension: '-',
+    'Informes a': 27,
+    'Salario anual': 47600
+  },
+  
+---------------------------------------------------->
+------> Ordenar Datos con skip limit
+
+---> Salta 10 documentos del sort 
+db.empleados.find().sort({"Oficina": 1, "EmpID":1}).skip(10).pretty()
+
+---> Limita 2 elementos
+db.empleados.find().sort({"Oficina": 1, "EmpID":1}).skip(10).limit(2).pretty()
+>   {
+    _id: ObjectId("653817574ca8cb5530d1de7c"),
+    EmpID: 43,
+    Apellido: 'Peña',
+    Nombre: 'Rodrigo',
+    'Categoría': 'Gerente',
+    'Fecha contrato': '13/10/04',
+    Oficina: 2,
+    Extension: '203',
+    'Informes a': 7,
+    'Salario anual': 480000
+  },
+  {
+    _id: ObjectId("653817574ca8cb5530d1de7d"),
+    EmpID: 44,
+    Apellido: 'Martinez',
+    Nombre: 'Alberto',
+    'Categoría': 'Gerente',
+    'Fecha contrato': '7/2/04',
+    Oficina: 2,
+    Extension: '204',
+    'Informes a': 7,
+    'Salario anual': 53500
+  }
+  
+---------------------------------------------------->
+------> Proyectar , los datos a mostrar 
+db.empleados.find({},{Nombre:1})
+
+>   { _id: ObjectId("653817574ca8cb5530d1de71"), Nombre: 'Jorge' },
+  { _id: ObjectId("653817574ca8cb5530d1de72"), Nombre: 'Laura' },
+  { _id: ObjectId("653817574ca8cb5530d1de73"), Nombre: 'Antonio' },
+  { _id: ObjectId("653817574ca8cb5530d1de74"), Nombre: 'Raul' },
+  { _id: ObjectId("653817574ca8cb5530d1de75"), Nombre: 'Elena' },
+  { _id: ObjectId("653817574ca8cb5530d1de76"), Nombre: 'Gabriel' },
+  { _id: ObjectId("653817574ca8cb5530d1de77"), Nombre: 'Alejandro' },
+  { _id: ObjectId("653817574ca8cb5530d1de78"), Nombre: 'Susana' },
+  { _id: ObjectId("653817574ca8cb5530d1de79"), Nombre: 'Luis' },
+  { _id: ObjectId("653817574ca8cb5530d1de7a"), Nombre: 'David' },
+  { _id: ObjectId("653817574ca8cb5530d1de7b"), Nombre: 'Ivan' },
+  { _id: ObjectId("653817574ca8cb5530d1de7c"), Nombre: 'Rodrigo' },
+  { _id: ObjectId("653817574ca8cb5530d1de7d"), Nombre: 'Alberto' },
+  { _id: ObjectId("653817574ca8cb5530d1de7e"), Nombre: 'Juan' },
+  { _id: ObjectId("653817574ca8cb5530d1de7f"), Nombre: 'Ramiro' },
+  { _id: ObjectId("653817574ca8cb5530d1de80"), Nombre: 'Umberto' },
+  { _id: ObjectId("653817574ca8cb5530d1de81"), Nombre: 'Diego' },
+  { _id: ObjectId("653817574ca8cb5530d1de82"), Nombre: 'Ana' },
+  { _id: ObjectId("653817574ca8cb5530d1de83"), Nombre: 'Jose' },
+  { _id: ObjectId("653817574ca8cb5530d1de84"), Nombre: 'Adrian' }
+  
+db.empleados.find({},{Nombre:1}).sort({Nombre :1 })
+>   { _id: ObjectId("653817574ca8cb5530d1de84"), Nombre: 'Adrian' },
+  { _id: ObjectId("653817574ca8cb5530d1de7d"), Nombre: 'Alberto' },
+  { _id: ObjectId("653817574ca8cb5530d1de77"), Nombre: 'Alejandro' },
+  { _id: ObjectId("653817574ca8cb5530d1de82"), Nombre: 'Ana' },
+  { _id: ObjectId("653817574ca8cb5530d1de73"), Nombre: 'Antonio' },
+  { _id: ObjectId("653817574ca8cb5530d1de91"), Nombre: 'Carla' },
+  { _id: ObjectId("653817574ca8cb5530d1de7a"), Nombre: 'David' },
+  { _id: ObjectId("653817574ca8cb5530d1de85"), Nombre: 'David' },
+  { _id: ObjectId("653817574ca8cb5530d1de81"), Nombre: 'Diego' },
+  { _id: ObjectId("653817574ca8cb5530d1de75"), Nombre: 'Elena' },
+  { _id: ObjectId("653817574ca8cb5530d1de89"), Nombre: 'Estafanía' },
+  { _id: ObjectId("65481368f1d2698d6e80b8fe"), Nombre: 'Esteban' },
+  { _id: ObjectId("653817574ca8cb5530d1de87"), Nombre: 'Fernando' },
+  { _id: ObjectId("653817574ca8cb5530d1de76"), Nombre: 'Gabriel' },
+  { _id: ObjectId("653817574ca8cb5530d1de7b"), Nombre: 'Ivan' },
+  { _id: ObjectId("653817574ca8cb5530d1de71"), Nombre: 'Jorge' },
+  { _id: ObjectId("653817574ca8cb5530d1de83"), Nombre: 'Jose' },
+  { _id: ObjectId("653817574ca8cb5530d1de7e"), Nombre: 'Juan' },
+  { _id: ObjectId("654812cff1d2698d6e80b8fc"), Nombre: 'Juan' },
+  { _id: ObjectId("65481359f1d2698d6e80b8fd"), Nombre: 'Juan' }
+
+db.empleados.find({},{Nombre:1,"Salario anual":1})
+
+>   {
+    _id: ObjectId("653817574ca8cb5530d1de71"),
+    Nombre: 'Jorge',
+    'Salario anual': 51000
+  },
+  {
+    _id: ObjectId("653817574ca8cb5530d1de72"),
+    Nombre: 'Laura',
+    'Salario anual': 58000
+  },
+  {
+    _id: ObjectId("653817574ca8cb5530d1de73"),
+    Nombre: 'Antonio',
+    'Salario anual': 160000
+  }, ............
+  
+ db.empleados.find({},{Nombre:1,"Salario anual":1,_id:0})
+ >   { Nombre: 'Jorge', 'Salario anual': 51000 },
+  { Nombre: 'Laura', 'Salario anual': 58000 },
+  { Nombre: 'Antonio', 'Salario anual': 160000 },
+  { Nombre: 'Raul', 'Salario anual': 61500 },
+  { Nombre: 'Elena', 'Salario anual': 59000 },
+  { Nombre: 'Gabriel', 'Salario anual': 49000 },
+  { Nombre: 'Alejandro', 'Salario anual': 48000 },
+  { Nombre: 'Susana', 'Salario anual': 59000 },
+  { Nombre: 'Luis', 'Salario anual': 63000 },
+  { Nombre: 'David', 'Salario anual': 52000 },
+  { Nombre: 'Ivan', 'Salario anual': 49000 },
+  { Nombre: 'Rodrigo', 'Salario anual': 480000 },
+  { Nombre: 'Alberto', 'Salario anual': 53500 },
+  { Nombre: 'Juan', 'Salario anual': 110000 },
+  { Nombre: 'Ramiro', 'Salario anual': 60500 },
+  { Nombre: 'Umberto', 'Salario anual': 53000 },
+  { Nombre: 'Diego', 'Salario anual': 50300 },
+  { Nombre: 'Ana', 'Salario anual': 49000 },
+  { Nombre: 'Jose', 'Salario anual': 49000 },
+  { Nombre: 'Adrian', 'Salario anual': 50500 }
+
+ db.empleados.find({},{Nombre:1,"Salario anual":1,_id:0}).sort({Nombre :1 })  
+ 
+ >   { Nombre: 'Adrian', 'Salario anual': 50500 },
+  { Nombre: 'Alberto', 'Salario anual': 53500 },
+  { Nombre: 'Alejandro', 'Salario anual': 48000 },
+  { Nombre: 'Ana', 'Salario anual': 49000 },
+  { Nombre: 'Antonio', 'Salario anual': 160000 },
+  { Nombre: 'Carla', 'Salario anual': 50000 },
+  { Nombre: 'David', 'Salario anual': 52000 },
+  { Nombre: 'David', 'Salario anual': 49000 },
+  { Nombre: 'Diego', 'Salario anual': 50300 },
+  { Nombre: 'Elena', 'Salario anual': 59000 },
+  { Nombre: 'Estafanía', 'Salario anual': 70100 },
+  { Nombre: 'Esteban' },
+  { Nombre: 'Fernando', 'Salario anual': 58200 },
+  { Nombre: 'Gabriel', 'Salario anual': 49000 },
+  { Nombre: 'Ivan', 'Salario anual': 49000 },
+  { Nombre: 'Jorge', 'Salario anual': 51000 },
+  { Nombre: 'Jose', 'Salario anual': 49000 },
+  { Nombre: 'Juan', 'Salario anual': 110000 },
+  { Nombre: 'Juan' },
+  { Nombre: 'Juan' }
+  
+ 
+
+
+

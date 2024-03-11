@@ -1,0 +1,204 @@
+------------------------------------------------------------------------------------------------------------#
+------------> Matrices
+
+db.usuarios.find({dirección:{ciudad:"Barcelona"}}).pretty()
+>[
+  {
+    _id: ObjectId("65de3c30be627172a75eb2ad"),
+    nombre: 'Juan',
+    apellidos: 'Gonzalez',
+    edad: 25,
+    alta: true,
+    'dirección': { ciudad: 'Barcelona' }
+  }
+]
+
+db.usuarios.find({"dirección.ciudad":"Barcelona"}).pretty()    ---> Es más genérico.
+>[
+  {
+    _id: ObjectId("65de3c30be627172a75eb2ad"),
+    nombre: 'Juan',
+    apellidos: 'Gonzalez',
+    edad: 25,
+    alta: true,
+    'dirección': { ciudad: 'Barcelona' }
+  },
+  {
+    _id: ObjectId("65de3d1bb214bb85da6b4d79"),
+    nombre: 'David',
+    'dirección': { ciudad: 'Barcelona', Calle: 'Avenida Madrid' }
+  },
+  {
+    _id: ObjectId("65de3d4fb214bb85da6b4d7a"),
+    nombre: 'Alfonso',
+    'dirección': { Calle: 'Avenida Madrid', ciudad: 'Barcelona' }
+  }
+]
+------------------------------------------------------------------------------------------------------------#
+------------> $size  --< Busca elemento dentro de una matriz.
+ db.usuarios.updateOne({nombre:"David"},{$set: {aficiones:["correr","nadar","patinar"]}})
+ >{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+db.usuarios.updateOne({nombre:"Alfonso"},{$set: {aficiones:["correr","nadar"]}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+
+db.usuarios.find({aficiones:{$size:2}}).pretty()
+>[
+  {
+    _id: ObjectId("65de3d4fb214bb85da6b4d7a"),
+    nombre: 'Alfonso',
+    'dirección': { Calle: 'Avenida Madrid', ciudad: 'Barcelona' },
+    aficiones: [ 'correr', 'nadar' ]
+  }
+]
+
+db.usuarios.find({aficiones:{$size:3}}).pretty()
+>[
+  {
+    _id: ObjectId("65de3d1bb214bb85da6b4d79"),
+    nombre: 'David',
+    'dirección': { ciudad: 'Barcelona', Calle: 'Avenida Madrid' },
+    aficiones: [ 'correr', 'nadar', 'patinar' ]
+  }
+]
+
+------------------------------------------------------------------------------------------------------------#
+------------> $all  --< Busca donde existan elementos en una matriz
+
+db.usuarios.updateOne({nombre:"Felipe"},{$set: {aficiones:["nadar","correr"]}})
+>{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+
+db.usuarios.find({aficiones:{$all:["nadar","correr"]}}).pretty()
+>[
+  {
+    _id: ObjectId("65de3c30be627172a75eb2ae"),
+    nombre: 'Felipe',
+    apellidos: 'Sanchez',
+    edad: 27,
+    alta: false,
+    'dirección': { ciudad: 'Madrid' },
+    aficiones: [ 'nadar', 'correr' ]
+  },
+  {
+    _id: ObjectId("65de3d1bb214bb85da6b4d79"),
+    nombre: 'David',
+    'dirección': { ciudad: 'Barcelona', Calle: 'Avenida Madrid' },
+    aficiones: [ 'correr', 'nadar', 'patinar' ]
+  },
+  {
+    _id: ObjectId("65de3d4fb214bb85da6b4d7a"),
+    nombre: 'Alfonso',
+    'dirección': { Calle: 'Avenida Madrid', ciudad: 'Barcelona' },
+    aficiones: [ 'correr', 'nadar' ]
+  }
+]
+
+******************
+db.usuarios.find({aficiones:["nadar","correr"]}).pretty()
+>[
+  {
+    _id: ObjectId("65de3c30be627172a75eb2ae"),
+    nombre: 'Felipe',
+    apellidos: 'Sanchez',
+    edad: 27,
+    alta: false,
+    'dirección': { ciudad: 'Madrid' },
+    aficiones: [ 'nadar', 'correr' ]
+  }
+]
+******************
+
+db.usuarios.find({aficiones:{$all:["patinar"]}}).pretty()
+> [
+  {
+    _id: ObjectId("65de3d1bb214bb85da6b4d79"),
+    nombre: 'David',
+    'dirección': { ciudad: 'Barcelona', Calle: 'Avenida Madrid' },
+    aficiones: [ 'correr', 'nadar', 'patinar' ]
+  }
+]
+------------------------------------------------------------------------------------------------------------#
+------------> $elemetMatch  --< 
+
+db.usuarios.updateOne({nombre:"Felipe"},{$set: {notas:[{año:1,mates:90,ingles:95},{año:2,mates:83,ingles:82}]}})
+>{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+db.usuarios.updateOne({nombre:"David"},{$set: {notas:[{año:1,mates:80,ingles:85},{año:2,mates:86,ingles:79}]}})
+> {
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+db.usuarios.find({$and : [{"notas.mates": {$gt:85}},{"notas.ingles" :{$gt:80}}]})   ---> No estabos buscando correctamente
+> [
+  {
+    _id: ObjectId("65de3c30be627172a75eb2ae"),
+    nombre: 'Felipe',
+    apellidos: 'Sanchez',
+    edad: 27,
+    alta: false,
+    'dirección': { ciudad: 'Madrid' },
+    aficiones: [ 'nadar', 'correr' ],
+    notas: [
+      { 'año': 1, mates: 90, ingles: 95 },
+      { 'año': 2, mates: 83, ingles: 82 }
+    ]
+  },
+  {
+    _id: ObjectId("65de3d1bb214bb85da6b4d79"),
+    nombre: 'David',
+    'dirección': { ciudad: 'Barcelona', Calle: 'Avenida Madrid' },
+    aficiones: [ 'correr', 'nadar', 'patinar' ],
+    notas: [
+      { 'año': 1, mates: 80, ingles: 85 },
+      { 'año': 2, mates: 86, ingles: 79 }
+    ]
+  }
+]
+
+db.usuarios.find({notas : {$elemMatch :{mates: {$gt:85},ingles :{$gt:80}}}}).pretty() --> Ahora si encontramos lo que buscamos.
+> [
+  {
+    _id: ObjectId("65de3c30be627172a75eb2ae"),
+    nombre: 'Felipe',
+    apellidos: 'Sanchez',
+    edad: 27,
+    alta: false,
+    'dirección': { ciudad: 'Madrid' },
+    aficiones: [ 'nadar', 'correr' ],
+    notas: [
+      { 'año': 1, mates: 90, ingles: 95 },
+      { 'año': 2, mates: 83, ingles: 82 }
+    ]
+  }
+]
+

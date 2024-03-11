@@ -1,0 +1,86 @@
+**************************************************************
+----> READ.
+
+----> Buscar por una condición.
+db.colección.find({edad:25})
+
+----> Buscar por una condición lógica.
+db.colección.find({edad :{$gt :24}})
+
+https://www.mongodb.com/docs/manual/reference/operator/query/
+
+
+**************************************************************
+
+mongoimport empleados.json -d DBempleados -c empleados
+
+Dbempleados> db.empleados.findOne()
+
+db.empleados.find({Apellido: "Santos"}).pretty()
+
+db.empleados.find({"Salario anual": 49000}).pretty()
+
+db.empleados.findOne({"Salario anual": 49000})
+
+db.empleados.find({"Salario anual": {$eq:49000}}).pretty()
+
+**************************************************************
+db.empleados.find({"Salario anual": {$ne:49000}}).pretty()
+
+
+db.empleados.find({"Salario anual": {$gt:49000}}).pretty()
+
+db.empleados.find({"Salario anual": {$lt:49000}}).pretty()
+
+db.empleados.find({"Salario anual": {$lte:49000}}).pretty()
+
+
+**************************************************************
+---> $in  $nin
+
+db.empleados.find({"Salario anual": {$in:[48000,49000]}}).pretty()
+
+db.empleados.find({"Nombre": {$in:["Jose","Ivan","Ana"]}}).pretty()
+
+db.empleados.find({"Salario anual": {$nin:[48000,49000]}}).pretty()
+
+db.empleados.find({"Nombre": {$in:["Jose","Ivan","Ana"]}}).pretty()
+
+**************************************************************
+---> $exist  $type
+
+db.empleados.findOne()
+
+db.empleados.find({EmpID: 1})
+
+db.empleados.insertOne({EmpID : "510" , "Apellido" :"Carlos" , "Nombre" : "Juan", "Categoría" : "Comercial 5/10/03 ", "Oficina" : 2, "Extensión" : "501","Informe a" : 4})
+
+
+
+db.empleados.insertOne({EmpID : "98" , "Apellido" :"Carlos" , "Nombre" : "Juan", "Categoría" : "Comercial 5/10/03 ", "Oficina" : 2, "Extensión" : "501","Informe a" : 4})
+db.empleados.insertOne({EmpID : "99" , "Apellido" :"Jose" , "Nombre" : "Esteban", "Categoría" : "Comercial 5/10/03 ", "Oficina" : 2, "Extensión" : "501","Informe a" : 4 , "salario": "45,000"})
+
+db.empleados.find({EmpID: {$in:[98,99]}}).pretty()
+
+db.empleados.find({"salario" :{$exists:false}}).pretty()
+
+db.empleados.find({"Salario anual" :{$exists:false}}).pretty()
+
+db.empleados.find({"Salario anual" :{$type:"string"}}).pretty()
+
+db.empleados.find({"Salario anual" :{$type:"number"}}).pretty()
+
+db.empleados.find({"Salario anual" :{$type:"number", $gt:44000}}).pretty()
+
+db.empleados.find({"Salario anual" :{$type:"number", $lt:44000}}).pretty()
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,31 @@
+CREATE
+**********************************************************************************
+---> insertOne()
+db.coleción.insertOne({campo:valor})
+
+---> insertMany({})
+db.colección.insertMany({})
+db.colección.insertMany([
+{campo:valor},
+{cmpo:valor}])
+
+---> insert{}
+db.coleción.insert{}
+------------------------------------------------>
+db.personas.insertOne({nombre:"Juan", edad: 25})
+
+db.personas.insertMany([{nombre:"Sebastian",edad:30},{nombre:"Jorge",edad:35}])
+
+db.personas.find().pretty()
+------------------------------------------------>
+db.personas.insert({nombre:"Antonio", edad: 26},{nombre:"Felipe", edad: 28})
+db.personas.insert([{nombre:"Antonio", edad: 26},{nombre:"Felipe", edad: 28}])
+
+**********************************************************************************
+---> Insert ordenado.
+db.aficiones.insertMany([{_id:"Yoga",nombre: "Yoga"},{_id:"futbol",nombre:"futbol"},{_id:"Running",nombre:"Running"}])
+db.aficiones.insertMany([{_id:"gimnasio",nombre: "Gimnasio"},{_id:"futbol",nombre:"futbol"},{_id:"Escalada",nombre:"Escalada"}])
+
+
+db.aficiones.insertMany([{_id:"gimnasio",nombre: "Gimnasio"},{_id:"futbol",nombre:"futbol"},{_id:"Escalada",nombre:"Escalada"},{ordered:true}])
+***********************************************************************************
