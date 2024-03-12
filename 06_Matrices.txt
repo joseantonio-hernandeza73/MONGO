@@ -93,3 +93,6 @@ db.usuarios.find({nombre:"David"},{aficiones :{$slice :[1,1]}}).pretty()
 
 
 ----------------------------------------------->
+
+
+---------> Algo Más
