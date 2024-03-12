@@ -99,3 +99,9 @@ db.usuarios.find({nombre:"David"},{aficiones :{$slice :[1,1]}}).pretty()
 
 
 ----< Cambio de Texto
+
+
+---> git remote add origin https://github.com/joseantonio-hernandeza73/MONGO.git
+---> git remote -v
+----> git remote remove origin 
+
