@@ -1,0 +1,11 @@
+commit b26c6f5a115bd3a685323c56ff065e3326f25b1e
+Author: Vitriol99 <ddt_99mx@yahoo.com.mx>
+Date:   Mon Mar 11 12:28:42 2024 -0600
+
+    agregamos una línea
+
+commit ecd44b01dfcc1da43dcd9e56b504e1a3a1a50681
+Author: Vitriol99 <ddt_99mx@yahoo.com.mx>
+Date:   Mon Mar 11 12:26:39 2024 -0600
+
+    20240311 primer commit
